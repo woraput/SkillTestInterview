@@ -1,19 +1,14 @@
-import React from "react";
-import { UserRegister } from "./Register";
+import React, { useContext } from "react";
+import { AuthContext, UserRegister } from "../context/AuthenProvider";
 
 type Props = {};
 
 const Home = (props: Props) => {
-  const data: UserRegister = {
-    gender: null,
-    firstName: "",
-    lastName: "",
-    address: "",
-    postcode: null,
-    email: "",
-    password: "",
-    tel: null,
-    isAccept: false,
+  const authProvider = useContext(AuthContext);
+  const userInfo = authProvider?.dataProvider?.userLogined as UserRegister;
+
+  const userLogout = (): void => {
+    authProvider?.logout();
   };
 
   return (
@@ -25,42 +20,66 @@ const Home = (props: Props) => {
           <tbody>
             <tr>
               <td className="pb-1">Gender </td>
-              <td align="right">{data?.gender}</td>
+              <td className="pb-1" align="right">
+                {userInfo.gender === 0 ? "Male" : "Female"}
+              </td>
             </tr>
             <tr>
               <td className="pb-1">First Name </td>
-              <td align="right">{data?.firstName}</td>
+              <td className="pb-1" align="right">
+                {userInfo?.firstName}
+              </td>
             </tr>
             <tr>
               <td className="pb-1">Last Name </td>
-              <td align="right">{data?.lastName}</td>
+              <td className="pb-1" align="right">
+                {userInfo?.lastName}
+              </td>
             </tr>
             <tr>
               <td className="pb-1">Address </td>
-              <td align="right">{data?.address}</td>
+              <td className="pb-1" align="right">
+                {userInfo?.address}
+              </td>
             </tr>
             <tr>
               <td className="pb-1">Postcode </td>
-              <td align="right">{data?.postcode}</td>
+              <td className="pb-1" align="right">
+                {userInfo?.postcode}
+              </td>
             </tr>
             <tr>
               <td className="pb-1">Email </td>
-              <td align="right">{data?.email}</td>
+              <td className="pb-1" align="right">
+                {userInfo?.email}
+              </td>
             </tr>
             <tr>
               <td className="pb-1">Password </td>
-              <td align="right">{data?.password}</td>
+              <td className="pb-1" align="right">
+                {userInfo?.password}
+              </td>
             </tr>
             <tr>
               <td className="pb-1">Telephone </td>
-              <td align="right">{data?.tel}</td>
+              <td className="pb-1" align="right">
+                {userInfo?.tel}
+              </td>
             </tr>
             <tr>
-              <td className="pb-1">Accept term and conditions </td>
-              <td align="right">{data?.isAccept ? "Accept" : "Unaccept"} </td>
+              <td className="pb-1 whitespace-nowrap">
+                Accept term and conditions{" "}
+              </td>
+              <td className="pb-1" align="right">
+                {userInfo?.isAccept ? "Accept" : "Unaccept"}{" "}
+              </td>
             </tr>
           </tbody>
         </table>
+        <button className="mt-4" onClick={() => userLogout()}>
+          {" "}
+          Logout
+        </button>
       </div>
     </div>
   );

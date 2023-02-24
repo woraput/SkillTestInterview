@@ -1,16 +1,19 @@
-import React, { FormEvent, ChangeEvent, useState } from "react";
+import React, { FormEvent, ChangeEvent, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { redirect } from "react-router-dom";
+import { AuthContext } from "../context/AuthenProvider";
 
 type Props = {};
 
-type UserLogin = {
+export type UserLogin = {
   email: string;
   password: string;
 };
 
 const Login = (props: Props) => {
   const navigate = useNavigate();
+  const authProvider = useContext(AuthContext);
+
   const initialFormLogin: UserLogin = {
     email: "",
     password: "",
@@ -34,8 +37,8 @@ const Login = (props: Props) => {
     e.preventDefault();
 
     if (isValid()) {
+      authProvider?.login(formLogin);
       setFormLogin(initialFormLogin);
-      navigate("home");
     }
   };
 
@@ -63,8 +66,10 @@ const Login = (props: Props) => {
             onChange={(e) => handleChangeForm(e)}
           />
 
-          <div className={"flex gap-4 align-middle justify-between"}>
-            <button type="submit">Login</button>
+          <div className={"flex flex-col gap-4 align-middle justify-between"}>
+            <button type="submit" className="border-1">
+              Login
+            </button>
             <button type="button" onClick={() => registerUser()}>
               Register
             </button>

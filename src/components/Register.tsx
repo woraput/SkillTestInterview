@@ -1,26 +1,14 @@
-import React, { FormEvent, ChangeEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { redirect } from "react-router-dom";
+import React, { FormEvent, ChangeEvent, useState, useContext } from "react";
+import { AuthContext, UserRegister } from "../context/AuthenProvider";
 import { GENDER_DDL } from "../share/DDL";
 
 type Props = {};
 
-export type UserRegister = {
-  gender: number | null;
-  firstName: string;
-  lastName: string;
-  address: string;
-  postcode: number | null;
-  email: string;
-  password: string;
-  tel: number | null;
-  isAccept: boolean;
-};
-
 const Register = (props: Props) => {
-  const navigate = useNavigate();
+  const authProvider = useContext(AuthContext);
+
   const initialFormRegister: UserRegister = {
-    gender: null,
+    gender: "",
     firstName: "",
     lastName: "",
     address: "",
@@ -30,13 +18,9 @@ const Register = (props: Props) => {
     tel: null,
     isAccept: false,
   };
+
   const [formRegister, setFormRegister] =
     useState<UserRegister>(initialFormRegister);
-
-  console.log(
-    "🚀 ~ file: Register.tsx:34 ~ Register ~ formRegister:",
-    formRegister
-  );
 
   const handleChangeForm = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -67,6 +51,15 @@ const Register = (props: Props) => {
     }));
   };
 
+  const handleChangeFormCheck = (e: ChangeEvent<HTMLInputElement>) => {
+    let { name, checked } = e.target;
+
+    setFormRegister((prev) => ({
+      ...prev,
+      [name]: checked,
+    }));
+  };
+
   const isValid = (): boolean => {
     return true;
   };
@@ -74,9 +67,14 @@ const Register = (props: Props) => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    console.log(
+      "🚀 ~ file: Register.tsx:82 ~ handleSubmit ~ formRegister:",
+      formRegister
+    );
+
     if (isValid()) {
+      authProvider?.registerUser(formRegister);
       setFormRegister(initialFormRegister);
-      navigate("/home");
     }
   };
 
@@ -176,7 +174,7 @@ const Register = (props: Props) => {
               type="checkbox"
               name={"isAccept"}
               checked={formRegister?.isAccept}
-              onChange={(e) => handleChangeForm(e)}
+              onChange={(e) => handleChangeFormCheck(e)}
             />
             <label htmlFor="accectT&C">Accept terms and conditions</label>
           </div>

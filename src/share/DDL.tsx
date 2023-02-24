@@ -3,7 +3,7 @@ type Gender = {
   value: number;
 };
 
-export const GENDER_DDL: Array<Gender> = [
+export const GENDER_DDL: Gender[] = [
   {
     name: "ชาย",
     value: 0,
