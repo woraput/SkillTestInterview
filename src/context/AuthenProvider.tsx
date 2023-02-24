@@ -54,7 +54,7 @@ const AuthenProvider = ({ children }: Props) => {
           setAuthenDataProvider((prev) => ({
             ...prev,
             userLogined: haveUserRegisted,
-            isAuthen: !authenDataProvider?.isAuthen,
+            isAuthen: true,
           }));
 
           return navigate("home");
@@ -69,7 +69,7 @@ const AuthenProvider = ({ children }: Props) => {
     setAuthenDataProvider((prev) => ({
       ...prev,
       userLogined: {},
-      isAuthen: !authenDataProvider?.isAuthen,
+      isAuthen: false,
     }));
     navigate("/");
   };

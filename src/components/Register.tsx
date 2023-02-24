@@ -81,7 +81,7 @@ const Register = (props: Props) => {
   return (
     <div className="container-fluid p-4 h-full flex align-middle justify-center bg-[#e8e8e8]">
       <div className="flex flex-col justify-center w-[350px]">
-        <h1 className="text-4xl text-center mb-5 font-bold">Register</h1>
+        <h1 className=" text-center">Register</h1>
         <form onSubmit={handleSubmit} className={"flex flex-col gap-2  "}>
           <div className={"grid grid-cols-3 align-middle gap-2"}>
             <div className={"flex flex-col "}>
