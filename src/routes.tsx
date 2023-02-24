@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import Login from "./components/Login";
-import Home from "./components/Home";
+import Register from "./components/Register";
 
 type RouteType = {
   path: string;
@@ -9,11 +9,11 @@ type RouteType = {
 
 export const routes: Array<RouteType> = [
   {
-    path: "/login",
+    path: "login",
     component: <Login />,
   },
   {
-    path: "/home",
-    component: <Home />,
+    path: "register",
+    component: <Register />,
   },
 ];

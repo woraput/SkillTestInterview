@@ -7,3 +7,16 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+#root {
+  width: 100%;
+  margin: 0 auto;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  min-width: 320px;
+  width: 100%;
+  min-height: 100vh;
+}

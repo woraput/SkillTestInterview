@@ -4,23 +4,15 @@ import styled from "@emotion/styled";
 
 type Props = {};
 
-const WrapperStyle = styled.div`
-  ul {
-    margin: 10px;
-  }
-`;
+const WrapperStyle = styled.div``;
 
 const Header = (props: Props) => {
   return (
     <WrapperStyle>
-      <ul>
-        <li>
-          <Link to="login">Login</Link>
-        </li>
-        <li>
-          <Link to="home">Home</Link>
-        </li>
-      </ul>
+      <nav className={"p-4 bg-slate-100 flex align-middle gap-4"}>
+        <Link to="/">Login</Link>
+        <Link to="home">Home</Link>
+      </nav>
     </WrapperStyle>
   );
 };
