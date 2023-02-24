@@ -5,7 +5,7 @@ import { GENDER_DDL } from "../share/DDL";
 
 type Props = {};
 
-type UserRegister = {
+export type UserRegister = {
   gender: number | null;
   firstName: string;
   lastName: string;
