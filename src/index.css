@@ -1,4 +1,6 @@
 @tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
   h1 {
@@ -10,11 +12,13 @@
   h3 {
     @apply text-xl;
   }
+  .btn-primary {
+    @apply mt-4 py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75;
+  }
+  hr {
+    @apply border-gray-50 border-solid border-[1px] my-2 text-white;
+  }
 }
-
-@tailwind components;
-@tailwind utilities;
-
 /* * {
   margin: 0;
   padding: 0;

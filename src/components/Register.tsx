@@ -12,10 +12,10 @@ const Register = (props: Props) => {
     firstName: "",
     lastName: "",
     address: "",
-    postcode: null,
+    postcode: "",
     email: "",
     password: "",
-    tel: null,
+    tel: "",
     isAccept: false,
   };
 

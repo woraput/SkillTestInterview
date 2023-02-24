@@ -24,10 +24,10 @@ export type UserRegister = {
   firstName: string;
   lastName: string;
   address: string;
-  postcode: number | null;
+  postcode: number | string;
   email: string;
   password: string;
-  tel: number | null;
+  tel: number | string;
   isAccept: boolean;
 };
 
