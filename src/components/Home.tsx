@@ -76,10 +76,7 @@ const Home = (props: Props) => {
             </tr>
           </tbody>
         </table>
-        <button
-          className="mt-4 py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
-          onClick={() => userLogout()}
-        >
+        <button className="btn-primary mt-4" onClick={() => userLogout()}>
           {" "}
           Logout
         </button>
