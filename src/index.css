@@ -33,12 +33,13 @@
   .msg-error {
     @apply text-red-500 text-[10px];
   }
+  .container-custom {
+    @apply p-4 h-full flex align-middle justify-center bg-sky-100;
+  }
+  td {
+    @apply align-baseline;
+  }
 }
-/* * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-} */
 
 #root {
   width: 100%;

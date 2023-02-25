@@ -80,11 +80,13 @@ const AuthenProvider = ({ children }: Props) => {
       const isEmailExist = rawUserList.some(
         (user) => user.email === newUser.email
       );
+      let newArr: UserRegister[] = [...rawUserList, newUser];
+
       if (isEmailExist) {
         throw new Error("This Email already exict");
       }
-      newUser.gender = newUser?.gender as number;
-      let newArr: UserRegister[] = [...rawUserList, newUser];
+
+      newUser.gender = Number(newUser?.gender);
 
       setAuthenDataProvider((prev: AuthData) => ({
         ...prev,

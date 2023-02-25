@@ -45,70 +45,88 @@ const Login = (props: Props) => {
   };
 
   return (
-    <div className="container-fluid p-4 h-full flex align-middle justify-center bg-[#e8e8e8]">
-      <div className="flex flex-col justify-center w-[300px]">
-        <Formik
-          initialValues={initialFormLogin}
-          validationSchema={LoginSchema}
-          onSubmit={handleSubmit}
-        >
-          {({ errors, touched }) => (
-            <Form className={"flex flex-col gap-2  "}>
-              <label>Email</label>
-              <Field
-                type="email"
-                name="email"
-                placeholder="Input Email"
-                className={`form-input ${
-                  touched.email ? (errors.email ? "invalid" : "valid") : ""
-                }`}
-              />
+    <div className="container-custom">
+      <div className="flex flex-col justify-center w-[400px] h-auto">
+        <div className="py-10 px-16 bg-white rounded-2xl">
+          <h1 className="text-center mb-8">Login User</h1>
+          <Formik
+            initialValues={initialFormLogin}
+            validationSchema={LoginSchema}
+            onSubmit={handleSubmit}
+          >
+            {({ errors, touched }) => (
+              <Form className={"flex flex-col gap-2"} autoComplete="off">
+                <label>Email</label>
+                <Field
+                  type="email"
+                  name="email"
+                  placeholder="Input Email"
+                  className={`form-input ${
+                    touched.email ? (errors.email ? "invalid" : "valid") : ""
+                  }`}
+                />
+                <ErrorMessage
+                  component="div"
+                  name="email"
+                  className="msg-error"
+                />
+                <label>Password</label>
+                <Field
+                  type="password"
+                  name="password"
+                  placeholder="Input Password"
+                  className={`form-input  ${
+                    touched.password
+                      ? errors.password
+                        ? "invalid"
+                        : "valid"
+                      : ""
+                  }`}
+                />
 
-              <ErrorMessage
-                component="div"
-                name="email"
-                className="msg-error"
-              />
-
-              <label>Password</label>
-              <Field
-                type="password"
-                name="password"
-                placeholder="Input Password"
-                className={`form-input  ${
-                  touched.password
-                    ? errors.password
-                      ? "invalid"
-                      : "valid"
-                    : ""
-                }`}
-              />
-
-              <ErrorMessage
-                component="div"
-                name="password"
-                className="msg-error"
-              />
-
-              <div
-                className={
-                  "flex flex-col gap-4 align-middle justify-between mt-4"
-                }
-              >
-                <button type="submit" className="btn-primary">
-                  Login
-                </button>
-                <button
-                  type="button"
-                  className="btn-primary-outline "
-                  onClick={() => registerUser()}
+                {/* case no autoComplete */}
+                {/* <Field
+                  name="password"
+                  component={() => (
+                    <input
+                      className={`form-input  ${
+                        touched.password
+                          ? errors.password
+                            ? "invalid"
+                            : "valid"
+                          : ""
+                      }`}
+                      placeholder="Input Password"
+                      type="password"
+                      autoComplete="new-password"
+                    />
+                  )}
+                /> */}
+                <ErrorMessage
+                  component="div"
+                  name="password"
+                  className="msg-error"
+                />
+                <div
+                  className={
+                    "flex flex-col gap-4 align-middle justify-between mt-4"
+                  }
                 >
-                  Register
-                </button>
-              </div>
-            </Form>
-          )}
-        </Formik>
+                  <button type="submit" className="btn-primary">
+                    Login
+                  </button>
+                  <button
+                    type="button"
+                    className="btn-primary-outline "
+                    onClick={() => registerUser()}
+                  >
+                    Register
+                  </button>
+                </div>
+              </Form>
+            )}
+          </Formik>
+        </div>
       </div>
     </div>
   );

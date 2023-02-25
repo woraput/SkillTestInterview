@@ -192,7 +192,7 @@ const Playground = (props: Props) => {
   };
 
   return (
-    <div className="container-fluid p-4 h-full flex flex-col align-middle  bg-[#e8e8e8]">
+    <div className="container-fluid container-custom flex-col ">
       <h1>Exam 2-6</h1>
 
       <h2>test2</h2>

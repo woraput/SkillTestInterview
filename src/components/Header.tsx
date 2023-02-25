@@ -11,7 +11,7 @@ const Header = (props: Props) => {
   const authProvider = useContext(AuthContext);
   return (
     <WrapperStyle>
-      <nav className="p-4  flex align-middle gap-4  bg-slate-100">
+      <nav className="p-4  flex align-middle gap-4  bg-cyan-50">
         <h3 className="font-bold">Skills Test</h3>
 
         {authProvider?.dataProvider?.isAuthen === true ? (
