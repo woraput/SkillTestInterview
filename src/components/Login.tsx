@@ -22,7 +22,10 @@ const Login = (props: Props) => {
   };
 
   const LoginSchema = yup.object().shape({
-    email: yup.string().email("Invalid email").required("Email is Required"),
+    email: yup
+      .string()
+      .email("Invalid Format Email")
+      .required("Email is Required"),
     password: yup
       .string()
       .required("Password is Required")

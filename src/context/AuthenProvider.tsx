@@ -82,6 +82,7 @@ const AuthenProvider = ({ children }: Props) => {
       users: newArr,
     }));
 
+    alert("Register Successful");
     navigate("/");
   };
 

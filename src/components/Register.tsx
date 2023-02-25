@@ -2,6 +2,9 @@ import React, { FormEvent, ChangeEvent, useState, useContext } from "react";
 import { AuthContext, UserRegister } from "../context/AuthenProvider";
 import { GENDER_DDL } from "../share/DDL";
 
+import * as yup from "yup";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+
 type Props = {};
 
 const Register = (props: Props) => {
@@ -19,175 +22,258 @@ const Register = (props: Props) => {
     isAccept: false,
   };
 
-  const [formRegister, setFormRegister] =
-    useState<UserRegister>(initialFormRegister);
+  const RegisterSchema = yup.object().shape({
+    gender: yup
+      .number()
+      .required("Gender is Required")
+      .oneOf([0, 1], "Gender is Required"),
+    firstName: yup.string().required("First Name is Required"),
+    lastName: yup.string().required("Last Name is Required"),
+    address: yup.string().required("Address is Required"),
+    postcode: yup.string().required("Postcode is Required"),
+    email: yup
+      .string()
+      .email("Invalid Format Email")
+      .required("Email is Required"),
+    password: yup
+      .string()
+      .required("Password is Required")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+      ),
+    // confirmPassword: yup
+    //   .string()
+    //   .min(3, "Please Enter less then 3 letters")
+    //   .required("Confirm Password is required.")
+    //   .oneOf([yup.ref("password")], "Passwords must match"),
+    tel: yup.string().required("Telephone Number is required."),
+    isAccept: yup
+      .boolean()
+      .oneOf([true], "You must accept the terms and conditions"),
+  });
 
-  const handleChangeForm = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-
-    setFormRegister((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleChangeFormNumber = (e: ChangeEvent<HTMLInputElement>) => {
-    let { name, value } = e.target;
-
-    setFormRegister((prev) => ({
-      ...prev,
-      [name]: parseInt(value),
-    }));
-  };
-
-  const handleChangeFormSelect = (e: ChangeEvent<HTMLSelectElement>) => {
-    let { name, value } = e.target;
-
-    setFormRegister((prev) => ({
-      ...prev,
-      [name]: parseInt(value),
-    }));
-  };
-
-  const handleChangeFormCheck = (e: ChangeEvent<HTMLInputElement>) => {
-    let { name, checked } = e.target;
-
-    setFormRegister((prev) => ({
-      ...prev,
-      [name]: checked,
-    }));
-  };
-
-  const isValid = (): boolean => {
-    return true;
-  };
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const handleSubmit = (formValue: UserRegister) => {
     console.log(
-      "🚀 ~ file: Register.tsx:82 ~ handleSubmit ~ formRegister:",
-      formRegister
+      "🚀 ~ file: Register.tsx:107 ~ handleSubmit ~ formValue:",
+      formValue
     );
 
-    if (isValid()) {
-      authProvider?.registerUser(formRegister);
-      setFormRegister(initialFormRegister);
-    }
+    authProvider?.registerUser(formValue);
   };
 
   return (
     <div className="container-fluid p-4 h-full flex align-middle justify-center bg-[#e8e8e8]">
       <div className="flex flex-col justify-center w-[350px]">
         <h1 className=" text-center">Register</h1>
-        <form onSubmit={handleSubmit} className={"flex flex-col gap-2  "}>
-          <div className={"grid grid-cols-3 align-middle gap-2"}>
-            <div className={"flex flex-col "}>
-              <label>Gender</label>
-              <select
-                name="gender"
-                value={formRegister?.gender as number}
-                onChange={(e) => handleChangeFormSelect(e)}
-              >
-                <option aria-readonly>select..</option>
-                {GENDER_DDL.map((it) => (
-                  <option key={it?.value} value={it?.value}>
-                    {it?.name}
-                  </option>
-                ))}
-              </select>
-            </div>
+        <Formik
+          initialValues={initialFormRegister}
+          validationSchema={RegisterSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ errors, touched }) => (
+            <Form className={"flex flex-col gap-2  "}>
+              <div className="grid grid-cols-3 align-middle gap-2">
+                <div className={"flex flex-col "}>
+                  <label>Gender</label>
+                  <Field
+                    name="gender"
+                    as="select"
+                    className={`form-input ${
+                      touched.gender
+                        ? errors.gender
+                          ? "invalid"
+                          : "valid"
+                        : ""
+                    }`}
+                  >
+                    <option aria-readonly>select..</option>
+                    {GENDER_DDL.map((it) => (
+                      <option key={it?.value} value={it?.value}>
+                        {it?.name}
+                      </option>
+                    ))}
+                  </Field>
+                  <ErrorMessage
+                    component="div"
+                    name="gender"
+                    className="msg-error"
+                  />
+                </div>
 
-            <div className={"flex flex-col "}>
-              <label>Firstname</label>
-              <input
-                type="text"
-                name="firstName"
-                value={formRegister?.firstName}
-                onChange={(e) => handleChangeForm(e)}
+                <div className={"flex flex-col "}>
+                  <label>Firstname</label>
+                  <Field
+                    type="text"
+                    name="firstName"
+                    placeholder="Input Email"
+                    className={`form-input ${
+                      touched.firstName
+                        ? errors.firstName
+                          ? "invalid"
+                          : "valid"
+                        : ""
+                    }`}
+                  />
+                  <ErrorMessage
+                    component="div"
+                    name="firstName"
+                    className="msg-error"
+                  />
+                </div>
+
+                <div className={"flex flex-col "}>
+                  <label>Lastname</label>
+                  <Field
+                    type="text"
+                    name="lastName"
+                    placeholder="Input Email"
+                    className={`form-input ${
+                      touched.lastName
+                        ? errors.lastName
+                          ? "invalid"
+                          : "valid"
+                        : ""
+                    }`}
+                  />
+                  <ErrorMessage
+                    component="div"
+                    name="lastName"
+                    className="msg-error"
+                  />
+                </div>
+              </div>
+
+              <label>Address</label>
+              <Field
+                name="address"
+                as="textarea"
+                placeholder="Address"
+                className={`form-input ${
+                  touched.address ? (errors.address ? "invalid" : "valid") : ""
+                }`}
+                rows={2}
               />
-            </div>
-
-            <div className={"flex flex-col "}>
-              <label>Lastname</label>
-              <input
-                type="text"
-                name="lastName"
-                value={formRegister?.lastName}
-                onChange={(e) => handleChangeForm(e)}
+              <ErrorMessage
+                component="div"
+                name="address"
+                className="msg-error"
               />
-            </div>
-          </div>
-          <div className={"grid grid-cols-3 align-middle gap-2"}></div>
 
-          <label>Email</label>
-          <input
-            type="email"
-            name="email"
-            value={formRegister?.email}
-            onChange={(e) => handleChangeForm(e)}
-          />
+              <div className={"grid grid-cols-2 align-middle gap-2"}>
+                <div className={"flex flex-col "}>
+                  <label>Postcode</label>
+                  <Field
+                    type="number"
+                    name="postcode"
+                    placeholder="Input Email"
+                    className={`form-input ${
+                      touched.postcode
+                        ? errors.postcode
+                          ? "invalid"
+                          : "valid"
+                        : ""
+                    }`}
+                  />
+                  <ErrorMessage
+                    component="div"
+                    name="postcode"
+                    className="msg-error"
+                  />
+                </div>
 
-          <label>Password</label>
-          <input
-            type="password"
-            name="password"
-            value={formRegister?.password}
-            onChange={(e) => handleChangeForm(e)}
-          />
+                <div className={"flex flex-col "}>
+                  <label>Telephone</label>
+                  <Field
+                    type="tel"
+                    name="tel"
+                    placeholder="Input Phone Number"
+                    className={`form-input ${
+                      touched.tel ? (errors.tel ? "invalid" : "valid") : ""
+                    }`}
+                  />
+                  <ErrorMessage
+                    component="div"
+                    name="tel"
+                    className="msg-error"
+                  />
+                </div>
+              </div>
 
-          <label>Address</label>
-          <textarea
-            name="address"
-            value={formRegister?.address}
-            rows={2}
-            onChange={(e) => handleChangeForm(e)}
-          />
-
-          <div className={"grid grid-cols-2 align-middle gap-2"}>
-            <div className={"flex flex-col "}>
-              <label>Postcode</label>
-              <input
-                type="number"
-                name="postcode"
-                value={formRegister?.postcode as number}
-                onChange={(e) => handleChangeFormNumber(e)}
+              <label>Email</label>
+              <Field
+                type="email"
+                name="email"
+                placeholder="Input Email"
+                className={`form-input ${
+                  touched.email ? (errors.email ? "invalid" : "valid") : ""
+                }`}
               />
-            </div>
 
-            <div className={"flex flex-col "}>
-              <label>Telephone</label>
-              <input
-                type="tel"
-                name="tel"
-                value={formRegister?.tel as number}
-                onChange={(e) => handleChangeFormNumber(e)}
+              <ErrorMessage
+                component="div"
+                name="email"
+                className="msg-error"
               />
-            </div>
-          </div>
 
-          <div className="flex gap-2 align-middle">
-            <input
-              id="accectT&C"
-              type="checkbox"
-              name={"isAccept"}
-              checked={formRegister?.isAccept}
-              onChange={(e) => handleChangeFormCheck(e)}
-            />
-            <label htmlFor="accectT&C">Accept terms and conditions</label>
-          </div>
+              <label>Password</label>
+              <Field
+                type="password"
+                name="password"
+                placeholder="Input Password"
+                className={`form-input  ${
+                  touched.password
+                    ? errors.password
+                      ? "invalid"
+                      : "valid"
+                    : ""
+                }`}
+              />
 
-          <div className={"flex gap-4 align-middle justify-center mt-2"}>
-            <button
-              type="submit"
-              className="border-1  border-solid border-cyan-50 "
-            >
-              register
-            </button>
-          </div>
-        </form>
+              <ErrorMessage
+                component="div"
+                name="password"
+                className="msg-error"
+              />
+
+              {/* <label>Confirm Password</label>
+              <Field
+                type="password"
+                name="confirmPassword"
+                placeholder="Input Password"
+                className={`form-input  ${
+                  touched.confirmPassword
+                    ? errors.confirmPassword
+                      ? "invalid"
+                      : "valid"
+                    : ""
+                }`}
+              />
+
+              <ErrorMessage
+                component="div"
+                name="confirmPassword"
+                className="msg-error"
+              /> */}
+
+              <div className="flex gap-2 align-middle">
+                <Field id="accectT&C" type="checkbox" name={"isAccept"} />
+                <label htmlFor="accectT&C">Accept terms and conditions</label>
+              </div>
+              <ErrorMessage
+                component="div"
+                name="isAccept"
+                className="msg-error"
+              />
+
+              <div className={"flex gap-4 align-middle justify-center mt-2"}>
+                <button type="submit" className="btn-primary">
+                  register
+                </button>
+              </div>
+            </Form>
+          )}
+        </Formik>
       </div>
     </div>
   );
