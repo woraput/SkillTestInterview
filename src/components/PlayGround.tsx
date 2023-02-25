@@ -228,12 +228,14 @@ const Playground = (props: Props) => {
       </div>
       <hr />
       <h2>test4</h2>
+      <small>Test set is : {JSON.stringify(INPUT_EXAM_4_5)}</small>
       <div>
         Highest object Age is : {JSON.stringify(findHighestAge(INPUT_EXAM_4_5))}
       </div>
 
       <hr />
       <h2>test5</h2>
+      <small>Test set is : {JSON.stringify(INPUT_EXAM_4_5)}</small>
       <div>
         Sort object Age is :{" "}
         {JSON.stringify(sortArrayObjByAge(sortTypeObj, INPUT_EXAM_4_5))}
@@ -257,6 +259,7 @@ const Playground = (props: Props) => {
 
       <hr />
       <h2>test6</h2>
+      <small>Test set is : {JSON.stringify(INPUT_EXAM_6)}</small>
       <div>Sort by Condition User : {resultTest6}</div>
       <div className=" flex gap-2">
         <button

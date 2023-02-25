@@ -75,15 +75,27 @@ const AuthenProvider = ({ children }: Props) => {
   };
 
   const registerUser = (newUser: UserRegister) => {
-    let newArr: UserRegister[] = [...authenDataProvider!.users, newUser];
+    try {
+      const rawUserList = [...authenDataProvider!.users];
+      const isEmailExist = rawUserList.some(
+        (user) => user.email === newUser.email
+      );
+      if (isEmailExist) {
+        throw new Error("This Email already exict");
+      }
+      newUser.gender = newUser?.gender as number;
+      let newArr: UserRegister[] = [...rawUserList, newUser];
 
-    setAuthenDataProvider((prev: AuthData) => ({
-      ...prev,
-      users: newArr,
-    }));
+      setAuthenDataProvider((prev: AuthData) => ({
+        ...prev,
+        users: newArr,
+      }));
 
-    alert("Register Successful");
-    navigate("/");
+      alert("Register Successful");
+      navigate("/");
+    } catch (error) {
+      alert(error);
+    }
   };
 
   return (

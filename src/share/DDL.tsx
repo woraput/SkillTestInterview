@@ -5,11 +5,11 @@ type Gender = {
 
 export const GENDER_DDL: Gender[] = [
   {
-    name: "ชาย",
+    name: "Male",
     value: 0,
   },
   {
-    name: "หญิง",
+    name: "Female",
     value: 1,
   },
 ];
