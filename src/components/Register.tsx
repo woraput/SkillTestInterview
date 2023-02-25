@@ -1,4 +1,10 @@
-import React, { FormEvent, ChangeEvent, useState, useContext } from "react";
+import React, {
+  FormEvent,
+  ChangeEvent,
+  useState,
+  useContext,
+  KeyboardEvent,
+} from "react";
 import { AuthContext, UserRegister } from "../context/AuthenProvider";
 import { GENDER_DDL } from "../share/DDL";
 
@@ -47,7 +53,13 @@ const Register = (props: Props) => {
     //   .min(3, "Please Enter less then 3 letters")
     //   .required("Confirm Password is required.")
     //   .oneOf([yup.ref("password")], "Passwords must match"),
-    tel: yup.string().required("Telephone Number is required."),
+    tel: yup
+      .string()
+      .required("Telephone Number is required.")
+      .matches(/^(\+66|66|0)\d{9}$/, {
+        message: "Please enter a valid Thai phone number",
+        excludeEmptyString: true,
+      }),
     isAccept: yup
       .boolean()
       .oneOf([true], "You must accept the terms and conditions"),
@@ -60,6 +72,13 @@ const Register = (props: Props) => {
     );
 
     authProvider?.registerUser(formValue);
+  };
+
+  const onlyNumber = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (!/^\d+$/.test(event.key)) {
+      event.preventDefault();
+    }
+    return event.currentTarget.value;
   };
 
   return (
@@ -87,7 +106,7 @@ const Register = (props: Props) => {
                         : ""
                     }`}
                   >
-                    <option aria-readonly>select..</option>
+                    <option aria-readonly>Select..</option>
                     {GENDER_DDL.map((it) => (
                       <option key={it?.value} value={it?.value}>
                         {it?.name}
@@ -106,7 +125,7 @@ const Register = (props: Props) => {
                   <Field
                     type="text"
                     name="firstName"
-                    placeholder="Input Email"
+                    placeholder="Input Firstname"
                     className={`form-input ${
                       touched.firstName
                         ? errors.firstName
@@ -127,7 +146,7 @@ const Register = (props: Props) => {
                   <Field
                     type="text"
                     name="lastName"
-                    placeholder="Input Email"
+                    placeholder="Input Lastname"
                     className={`form-input ${
                       touched.lastName
                         ? errors.lastName
@@ -148,7 +167,7 @@ const Register = (props: Props) => {
               <Field
                 name="address"
                 as="textarea"
-                placeholder="Address"
+                placeholder="Input Address"
                 className={`form-input ${
                   touched.address ? (errors.address ? "invalid" : "valid") : ""
                 }`}
@@ -166,7 +185,7 @@ const Register = (props: Props) => {
                   <Field
                     type="number"
                     name="postcode"
-                    placeholder="Input Email"
+                    placeholder="Input Postcode"
                     className={`form-input ${
                       touched.postcode
                         ? errors.postcode
@@ -191,6 +210,7 @@ const Register = (props: Props) => {
                     className={`form-input ${
                       touched.tel ? (errors.tel ? "invalid" : "valid") : ""
                     }`}
+                    onKeyPress={onlyNumber}
                   />
                   <ErrorMessage
                     component="div"
@@ -267,7 +287,7 @@ const Register = (props: Props) => {
               />
 
               <div className={"flex gap-4 align-middle justify-center mt-2"}>
-                <button type="submit" className="btn-primary">
+                <button type="submit" className="btn-primary w-[100%]">
                   register
                 </button>
               </div>

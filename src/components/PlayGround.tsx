@@ -70,7 +70,6 @@ const INPUT_EXAM_6: DataTest6[] = [
   },
 ];
 
-// Create a function for finding the highest item from the input array which it’s object by age as follows
 const Playground = (props: Props) => {
   const [dataTest2, setDataTest2] = useState<number[]>(
     [...Array(10)].map((e) => Math.round(Math.random() * 100))

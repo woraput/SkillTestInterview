@@ -44,8 +44,6 @@ const Login = (props: Props) => {
     navigate("register");
   };
 
-  // design form login input email password use tailwindcss
-
   return (
     <div className="container-fluid p-4 h-full flex align-middle justify-center bg-[#e8e8e8]">
       <div className="flex flex-col justify-center w-[300px]">
